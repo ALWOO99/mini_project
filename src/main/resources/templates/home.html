@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Home</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+    <script th:src="@{/js/chat.js}" defer></script>
+   
+
+</head>
+
+<body>
+     <!-- Navigation Bar -->
+     <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <a href="/">PetWorld</a>
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="breedDetails" class="navbar-item">Explore Dog Breeds</a></li>
+                <li><a href="catBreedDetails" class="navbar-item">Explore Cat Breeds</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <!-- Top Left Welcome Message -->
+        <div class="header">
+            <h1 class="welcome-message">Welcome, <span th:text="${username}"></span></h1>
+            <form th:action="@{/logout}" method="post" class="logout-form">
+                <button type="submit">Logout</button>
+            </form>
+        </div>
+        
+
+
+        <!-- Chat Room -->
+        <div class="chatroom">
+            <h1>Chatroom</h1>
+            <!-- Chat Messages with scrollable area -->
+            <div id="chat-messages" class="chat-messages"></div>
+
+            <!-- Message Input Area -->
+            <div class="chat-input">
+                <input type="text" id="message-input" placeholder="Type your message...">
+                <button onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Variables -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var username = [[${ username }]];
+        /*]]>*/
+
+        // Fetch last 10 messages when the page loads
+        window.onload = async function () {
+            try {
+                const response = await fetch('/home/api/messages'); // RESTful API call
+                const messages = await response.json();
+                messages.forEach(showMessage); // Display each message
+            } catch (error) {
+                console.error('Failed to load messages:', error);
+            }
+        };
+    </script>
+</body>
+
+</html>

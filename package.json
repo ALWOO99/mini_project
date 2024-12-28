@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "webstomp-client": "^1.2.6"
+  }
+}
