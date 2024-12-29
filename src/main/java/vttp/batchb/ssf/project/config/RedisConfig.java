@@ -43,7 +43,14 @@ public class RedisConfig {
 
     @Bean
     public JedisConnectionFactory jedisConnectionFactory() {
-        RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration("localhost", 6379);
+        RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration(redisHost, redisPort);
+        // Set username and password if required
+    if (!redisUsername.trim().isEmpty()) {
+        redisConfig.setUsername(redisUsername);
+    }
+    if (!redisPassword.trim().isEmpty()) {
+        redisConfig.setPassword(redisPassword);
+    }
         JedisClientConfiguration jedisClientConfiguration = JedisClientConfiguration.builder().build();
         return new JedisConnectionFactory(redisConfig, jedisClientConfiguration);
     }
