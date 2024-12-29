@@ -8,16 +8,37 @@
 </head>
 <body>
     <div class="register-container">
-    <h1>Register</h1>
-    <form th:action="@{/register}" method="post">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br><br>
-        <input type="submit" value="Register">
-    </form>
-    <p>Back to Login <a th:href="@{/login}">Login here</a></p>
-</div>
-    
+        <h1>Register</h1>
+
+        <!-- Display Error Message -->
+        <p class="error-message" th:if="${error}" th:text="${error}" style="color: red;"></p>
+
+        <!-- Display Success Message -->
+        <p class="success-message" th:if="${message}" th:text="${message}" style="color: green;"></p>
+
+        <!-- Registration Form -->
+        <form th:action="@{/register}" method="post">
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" required><br>
+
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required minlength="6" maxlength="20"><br><br>
+
+            <input type="submit" value="Register">
+        </form>
+
+        <!-- Back to Login -->
+        <p>Back to Login <a th:href="@{/login}">Login here</a></p>
+    </div>
+
+    <!-- JavaScript Alert for Username Already Exists -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var alertFlag = "[[${alert}]]";
+        if (alertFlag === "true") {
+            alert("Username already exists. Try a different one.");
+        }
+        /*]]>*/
+    </script>
 </body>
 </html>
